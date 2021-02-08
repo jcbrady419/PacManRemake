@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class BatScript : MonoBehaviour
+public class RockScript : MonoBehaviour
 {
     [SerializeField] Transform target;
 
@@ -55,42 +55,40 @@ public class BatScript : MonoBehaviour
         {
             if (target.GetComponent<PeterScript>().reset == true)
             {
-                transform.position = new Vector2(33.5f, 77.8f);
+                transform.position = new Vector2(33f, 86.9f);
                 agent.SetDestination(target.position);
                 animator.SetInteger("State", 0);
             }
             if (target.GetComponent<PeterScript>().poweredUp == false)
             {
                 agent.SetDestination(target.position);
+                animator.SetInteger("State", 0);
             }
 
             if (target.GetComponent<PeterScript>().poweredUp == true)
             {
                 animator.SetInteger("State", 1);
-
             }
         }
         if (level == 2)
         {
             if (target.GetComponent<PeterScript>().reset == true)
             {
-                transform.position = new Vector2(321.2f, 79.3f);
+                transform.position = new Vector2(321.4f, 86.2f);
                 agent.SetDestination(target.position);
                 animator.SetInteger("State", 0);
             }
             if (target.GetComponent<PeterScript>().poweredUp == false)
             {
                 agent.SetDestination(target.position);
+                animator.SetInteger("State", 0);
             }
 
             if (target.GetComponent<PeterScript>().poweredUp == true)
             {
                 animator.SetInteger("State", 1);
-
             }
         }
-
-
 
 
 

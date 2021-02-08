@@ -8,6 +8,10 @@ TagManager:
   - Shield
   - Enemy
   - Peter
+  - Runpoint
+  - Shield 2
+  - Shield 3
+  - Shield 4
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - 
   - Enemy
   - Gem
-  - 
+  - shield
   - 
   - 
   - 

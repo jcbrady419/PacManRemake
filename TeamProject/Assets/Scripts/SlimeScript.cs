@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class BatScript : MonoBehaviour
+public class SlimeScript : MonoBehaviour
 {
     [SerializeField] Transform target;
 
@@ -37,15 +37,15 @@ public class BatScript : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Peter" && target.GetComponent<PeterScript>().poweredUp == false)
-        {
-            target.GetComponent<PeterScript>().reset = true;
-        }
-        if (collision.collider.tag == "Peter" && target.GetComponent<PeterScript>().poweredUp == true)
-        {
-            target.GetComponent<PeterScript>().reset = false;
-        }
-
+            if (collision.collider.tag == "Peter" && target.GetComponent<PeterScript>().poweredUp == false)
+            {
+                target.GetComponent<PeterScript>().reset = true;
+            }
+            if (collision.collider.tag == "Peter" && target.GetComponent<PeterScript>().poweredUp == true)
+            {
+                target.GetComponent<PeterScript>().reset = false;
+            }
+        
     }
 
     // Update is called once per frame
@@ -55,7 +55,7 @@ public class BatScript : MonoBehaviour
         {
             if (target.GetComponent<PeterScript>().reset == true)
             {
-                transform.position = new Vector2(33.5f, 77.8f);
+                transform.position = new Vector2(41.7f, 86.2f);
                 agent.SetDestination(target.position);
                 animator.SetInteger("State", 0);
             }
@@ -67,14 +67,13 @@ public class BatScript : MonoBehaviour
             if (target.GetComponent<PeterScript>().poweredUp == true)
             {
                 animator.SetInteger("State", 1);
-
             }
         }
         if (level == 2)
         {
             if (target.GetComponent<PeterScript>().reset == true)
             {
-                transform.position = new Vector2(321.2f, 79.3f);
+                transform.position = new Vector2(328.7f, 86.2f);
                 agent.SetDestination(target.position);
                 animator.SetInteger("State", 0);
             }
@@ -86,7 +85,6 @@ public class BatScript : MonoBehaviour
             if (target.GetComponent<PeterScript>().poweredUp == true)
             {
                 animator.SetInteger("State", 1);
-
             }
         }
 
