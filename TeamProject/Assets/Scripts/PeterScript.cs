@@ -6,11 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class PeterScript : MonoBehaviour
 {
+    public AudioSource BackgroundMusic;
+    public AudioClip gemSound;
+    public AudioClip shieldSound;
+    public AudioClip killSound;
+    public AudioClip deathSound;
     public float speed = 3.0f;
     public Text score;
     public Text gem;
     public Text health;
-    private int healthValue = 3;
+    public Text winText;
+    public Text loseText;
+    public int healthValue = 3;
     private int scoreValue = 0;
     public int gemValue = 0;
     Rigidbody2D rigidbody2d;
@@ -21,6 +28,7 @@ public class PeterScript : MonoBehaviour
     public static int level;
     Animator animator;
     private bool facingRight = true;
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +52,10 @@ public class PeterScript : MonoBehaviour
         poweredUp = false;
         reset = false;
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+        BackgroundMusic.loop = true;
+        winText.text = "";
+        loseText.text = "";
     }
     void Flip()
     {
@@ -63,6 +75,7 @@ public class PeterScript : MonoBehaviour
                 gemValue += 1;
                 gem.text = gemValue.ToString();
                 Destroy(collision.collider.gameObject);
+                PlaySound(gemSound);
             }
             if (collision.collider.tag == "Enemy" && poweredUp == false)
             {
@@ -70,6 +83,7 @@ public class PeterScript : MonoBehaviour
                 health.text = healthValue.ToString();
                 reset = true;
                 transform.position = new Vector2(33.1f, 31.06f);
+                PlaySound(deathSound);
 
             }
             if (collision.collider.tag == "Enemy" && poweredUp == true)
@@ -78,11 +92,14 @@ public class PeterScript : MonoBehaviour
                 poweredUp = false;
                 Destroy(collision.collider.gameObject);
                 reset = true;
+                PlaySound(killSound);
+                transform.position = new Vector2(33.1f, 31.06f);
             }
             if (collision.collider.tag == "Shield")
             {
                 Destroy(collision.collider.gameObject);
                 poweredUp = true;
+                PlaySound(shieldSound);
             }
         }
         if (level == 2)
@@ -94,6 +111,7 @@ public class PeterScript : MonoBehaviour
                 gemValue += 1;
                 gem.text = gemValue.ToString();
                 Destroy(collision.collider.gameObject);
+                PlaySound(gemSound);
             }
             if (collision.collider.tag == "Enemy" && poweredUp == false)
             {
@@ -101,6 +119,7 @@ public class PeterScript : MonoBehaviour
                 health.text = healthValue.ToString();
                 reset = true;
                 transform.position = new Vector2(321.1f, 31.06f);
+                PlaySound(deathSound);
 
             }
             if (collision.collider.tag == "Enemy" && poweredUp == true)
@@ -109,11 +128,14 @@ public class PeterScript : MonoBehaviour
                 poweredUp = false;
                 Destroy(collision.collider.gameObject);
                 reset = true;
+                PlaySound(killSound);
+                transform.position = new Vector2(321.1f, 31.06f);
             }
             if (collision.collider.tag == "Shield")
             {
                 Destroy(collision.collider.gameObject);
                 poweredUp = true;
+                PlaySound(shieldSound);
             }
         }
     }
@@ -121,6 +143,21 @@ public class PeterScript : MonoBehaviour
 
     void Update()
     {
+        if (healthValue == 0)
+        {
+            BackgroundMusic.enabled = false;
+            speed = 0.0f;
+            loseText.text = "Game Over You Lose! Press R to go to the Menu Screen";
+            if (Input.GetKey(KeyCode.R))
+            {
+                SceneManager.LoadScene("Menu");
+            }
+        }
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+            Debug.Log("QUIT");
+        }
         if (level == 1)
         {
             if (gemValue == 86)
@@ -128,11 +165,17 @@ public class PeterScript : MonoBehaviour
                 SceneManager.LoadScene("Level 2");
             }
         }
-        if (level == 1)
+        if (level == 2)
         {
             if (gemValue == 89)
             {
-                
+                winText.text = "Congratulations You Win! Press R to go to the Menu Screen";
+                BackgroundMusic.enabled = false;
+                speed = 0.0f;
+                if (Input.GetKey(KeyCode.R))
+                {
+                    SceneManager.LoadScene("Menu");
+                }
             }
         }
 
@@ -206,5 +249,9 @@ public class PeterScript : MonoBehaviour
         position.y = position.y + speed * vertical * Time.deltaTime;
 
         rigidbody2d.MovePosition(position);
+    }
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
 }

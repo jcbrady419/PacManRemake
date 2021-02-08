@@ -8,7 +8,6 @@ public class FireScript : MonoBehaviour
 {
     [SerializeField] Transform target;
 
-    [SerializeField] Transform runpoint;
     public static int level;
     Animator animator;
     private NavMeshAgent agent;
@@ -28,7 +27,6 @@ public class FireScript : MonoBehaviour
             level = 0;
         }
         target = GameObject.FindGameObjectWithTag("Peter").transform;
-        runpoint = GameObject.FindGameObjectWithTag("Runpoint").transform;
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -51,7 +49,11 @@ public class FireScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (level == 1)
+        if (target.GetComponent<PeterScript>().healthValue == 0)
+        {
+            Destroy(gameObject);
+        }
+            if (level == 1)
         {
             if (target.GetComponent<PeterScript>().reset == true)
             {
