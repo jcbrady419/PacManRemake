@@ -29,6 +29,7 @@ public class PeterScript : MonoBehaviour
     Animator animator;
     private bool facingRight = true;
     AudioSource audioSource;
+    public GameObject hurtPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -84,6 +85,7 @@ public class PeterScript : MonoBehaviour
                 reset = true;
                 transform.position = new Vector2(33.1f, 31.06f);
                 PlaySound(deathSound);
+                GameObject pickupObject = Instantiate(hurtPrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
 
             }
             if (collision.collider.tag == "Enemy" && poweredUp == true)
@@ -120,7 +122,7 @@ public class PeterScript : MonoBehaviour
                 reset = true;
                 transform.position = new Vector2(321.1f, 31.06f);
                 PlaySound(deathSound);
-
+                GameObject pickupObject = Instantiate(hurtPrefab, rigidbody2d.position + Vector2.up * 0.5f, Quaternion.identity);
             }
             if (collision.collider.tag == "Enemy" && poweredUp == true)
             {
