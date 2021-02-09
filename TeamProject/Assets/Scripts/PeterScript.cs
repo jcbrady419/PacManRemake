@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class PeterScript : MonoBehaviour
 {
     public AudioSource BackgroundMusic;
+    public AudioSource VictoryMusic;
+    public AudioSource DefeatMusic;
     public AudioClip gemSound;
     public AudioClip shieldSound;
     public AudioClip killSound;
@@ -34,7 +36,7 @@ public class PeterScript : MonoBehaviour
     void Start()
     {
 
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 1"))
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Level 1"))
         {
             level = 1;
         }
@@ -57,6 +59,8 @@ public class PeterScript : MonoBehaviour
         BackgroundMusic.loop = true;
         winText.text = "";
         loseText.text = "";
+        VictoryMusic.enabled = false;
+        DefeatMusic.enabled = false;
     }
     void Flip()
     {
@@ -149,7 +153,8 @@ public class PeterScript : MonoBehaviour
         {
             BackgroundMusic.enabled = false;
             speed = 0.0f;
-            loseText.text = "Game Over You Lose! Press R to go to the Menu Screen";
+            loseText.text = "Game Over You Lose! Press R to go to the Menu Screen or ESC to quit.";
+            DefeatMusic.enabled = true;
             if (Input.GetKey(KeyCode.R))
             {
                 SceneManager.LoadScene("Menu");
@@ -171,9 +176,10 @@ public class PeterScript : MonoBehaviour
         {
             if (gemValue == 89)
             {
-                winText.text = "Congratulations You Win! Press R to go to the Menu Screen";
+                winText.text = "Congratulations You Win! Press R to go to the Menu Screen or ESC to quit.";
                 BackgroundMusic.enabled = false;
                 speed = 0.0f;
+                VictoryMusic.enabled = true;
                 if (Input.GetKey(KeyCode.R))
                 {
                     SceneManager.LoadScene("Menu");

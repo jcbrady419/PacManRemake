@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    
+    public AudioSource MainMenuMusic;
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -19,5 +20,13 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
        
+    }
+    void Update()
+    {
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+            Debug.Log("QUIT");
+        }
     }
 }
