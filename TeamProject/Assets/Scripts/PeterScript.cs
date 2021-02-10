@@ -23,15 +23,16 @@ public class PeterScript : MonoBehaviour
     private int scoreValue = 0;
     public int gemValue = 0;
     Rigidbody2D rigidbody2d;
-    float horizontal;
-    float vertical;
     public bool poweredUp;
     public bool reset;
     public static int level;
     Animator animator;
+    Vector2 lookDirection = new Vector2(1, 0);
     private bool facingRight = true;
     AudioSource audioSource;
     public GameObject hurtPrefab;
+    float horizontal;
+    float vertical;
     // Start is called before the first frame update
     void Start()
     {
@@ -186,39 +187,19 @@ public class PeterScript : MonoBehaviour
                 }
             }
         }
-
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        rigidbody2d.AddForce(new Vector2(horizontal * speed, vertical));
-        if (facingRight == false && horizontal > 0)
-        {
-            Flip();
-        }
-        else if (facingRight == true && horizontal < 0)
-        {
-            Flip();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            reset = false;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            reset = false;
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            reset = false;
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            reset = false;
-        }
         if (Input.GetKeyDown(KeyCode.D))
         {
             animator.SetInteger("State", 1);
         }
         if (Input.GetKeyUp(KeyCode.D))
+        {
+            animator.SetInteger("State", 0);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            animator.SetInteger("State", 1);
+        }
+        if (Input.GetKeyUp(KeyCode.S))
         {
             animator.SetInteger("State", 0);
         }
@@ -233,24 +214,47 @@ public class PeterScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             animator.SetInteger("State", 1);
-        }
+                }
         if (Input.GetKeyUp(KeyCode.W))
         {
             animator.SetInteger("State", 0);
+                }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            reset = false;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            animator.SetInteger("State", 1);
+            reset = false;
         }
-        if (Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            animator.SetInteger("State", 0);
+            reset = false;
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            reset = false;
+        }
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+        Vector2 move = new Vector2(horizontal, vertical);
+
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            lookDirection.Set(move.x, move.y);
+            lookDirection.Normalize();
         }
 
-
+        animator.SetFloat("Look X", lookDirection.x);
+        animator.SetFloat("Look Y", lookDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
     }
+     
 
-    void FixedUpdate()
+
+void FixedUpdate()
     {
         Vector2 position = rigidbody2d.position;
         position.x = position.x + speed * horizontal * Time.deltaTime;
